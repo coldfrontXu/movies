@@ -19,6 +19,13 @@
     display:flex;
     justify-content: space-between;
 }
+.mian{
+    color: blue;
+    margin-top: 3rem;
+}
+.mian li{
+    line-height: 2rem;
+}
 
 </style>
 </head>
@@ -41,7 +48,15 @@
         <button @click="eduflag=!eduflag">使用教程</button>
     </div>
    
-    <div><img style="height: 71.82%;width:100%;" v-show="eduflag" src="http://a1.qpic.cn/psc?/V53i6CBe1MDDya0UC8ez2apHRf2y0tyE/ruAMsa53pVQWN7FLK88i5k49m9ani8c9Nw11qMPWo2bcuyQdOXWbh4QpZo6A1cGaHrOPNxWbeLBWZvf*fukv*nwbBEqACU33PmukZw*gokI!/b&ek=1&kp=1&pt=0&bo=bwXnAwAAAAADR.w!&tl=1&vuin=2211207925&tm=1609225200&sce=60-2-2&rf=viewer_4" alt=""></div>
+    <div><img style="height:71.82%;width:100%;" v-show="eduflag" src="http://a1.qpic.cn/psc?/V53i6CBe1MDDya0UC8ez2apHRf2y0tyE/ruAMsa53pVQWN7FLK88i5k49m9ani8c9Nw11qMPWo2bcuyQdOXWbh4QpZo6A1cGaHrOPNxWbeLBWZvf*fukv*nwbBEqACU33PmukZw*gokI!/b&ek=1&kp=1&pt=0&bo=bwXnAwAAAAADR.w!&tl=1&vuin=2211207925&tm=1609225200&sce=60-2-2&rf=viewer_4" alt=""></div>
+    <div class="mian">
+        <span><a href="./mian.txt" download="免责声明">免责声明:</a></span>
+        <ol>
+            <li>本脚本不做影视作品的下载和缓存,作品来源于网络，本脚本工具只负责网络接口的解析。</li>
+            <li>上述文字和影视作品无必然联系，仅供使用者参考。</li>
+            <li>上述脚本工具用于测试学习使用，如若本脚本工具无意中侵犯了某方的知识产权，告即及删除，邮箱:2211207925@qq.com。</li>
+        </ol>
+    </div>
 </div>
 <script>
    var vue=new Vue({
