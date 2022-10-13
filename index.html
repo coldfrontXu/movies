@@ -1,177 +1,165 @@
 <!DOCTYPE html>
 <html lang='en'>
 <head>
-<meta charset='UTF-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>XZH在线解析播放工具</title>
-<script src="https://cdn.jsdelivr.net/npm/vue"></script>
-<style>
-.zan img{
-    height:200px;
-    width:150px;
-}
-.zan{
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
-.play{
-    display:flex;
-    justify-content: space-between;
-}
-.mian{
-    color: blue;
-    margin-top: 3rem;
-}
-.mian li{
-    line-height: 2rem;
-}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" con3tent="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
+    <title>菜菜徐影院</title>
+  
+    <!-- 引入样式文件 -->
+    <link rel="stylesheet"href="https://fastly.jsdelivr.net/npm/vant@3/lib/index.css"/>
+    <script src="https://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    
+    <script src="https://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <link href="https://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://coldfront.gitee.io/caicaixu/main.css">
+    <link rel="stylesheet" href="https://coldfront.gitee.io/caicaixu/caicai.css">
+    
 
-</style>
 </head>
-<body>
+<body >
+
+<script src="https://fastly.jsdelivr.net/npm/vue@3"></script>
+<script src="https://fastly.jsdelivr.net/npm/vant@3/lib/vant.min.js"></script>
+
 <div id='app'>
-    <input type="text" v-model="selectUrl" placeholder="粘贴网页播放地址即可解析" style="height: 25px;line-height: 25px;">
-    <select v-model="selected">
-        <option v-for="(value,index) in urlsObject" :key="index" :value="value.url" v-text="value.text"></option>
-    </select>
-    <div style="margin-top: 40px;">
-        <div class="play">
-           <div> <button type="button" @click="play">解析播放</button></div>
-           <div> <button type="button" @click="getUrls">获取高质量接口</button></div>
-           <div>  <button @click="getMoney()" >{{des}}</button></div>
+    
+    <van-sticky >
+        <van-notice-bar scrollable="true"   left-icon="volume-o" text="感谢您的使用，如有任何问题，邮箱联系站长"></van-notice-bar>
+        <div>
+            <van-search v-model="selectUrl" shape="round" background="#4fc08d" placeholder="粘贴网页播放地址点击播放"  show-action >
+            <template #action>
+                <select v-model="selected">
+                    <option v-for="(value,index) in urlsObject" :key="index" :value="value.url" v-text="value.text"></option>
+                </select>
+            </template>
+            </van-search>
         </div>
-        <div class="zan">
-            <img v-show="flag" src="http://m.qpic.cn/psc?/V53i6CBe1MDDya0UC8ez2apHRf2y0tyE/ruAMsa53pVQWN7FLK88i5p.e1HAmI2jDRhjlfdtZ8PEqVz*sw2ieOzEqniBV8MBJ9cDlA1NffSvH.laAxnzxeobJ8sYSEnsYp2.PjRecuG8!/b&bo=OATJBQAAAAADB9I!&rf=viewer_4" alt="赞助码">
-            <p></p>
+    </van-sticky>    
+        <div style="margin-top: 40px;">
+            <van-row type="flex" justify="space-between">
+                <van-col span="6" > <van-button type="primary" @click="play"><span class="glyphicon glyphicon-play-circle" aria-hidden="true">播放</span></van-button></van-col>
+                <van-col span="6"> <van-button type="primary"@click="showPopup"><span class="glyphicon glyphicon-cog" aria-hidden="true">接口</span></van-button></van-col>
+                <van-col span="6"> <van-button type="primary" @click="getMoney()" v-text="des"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true">微信小店（扫码查看）</span></van-button></van-col>
+                <van-button type="primary" @click="eduflag=!eduflag;jiaochengSrc='https://7875-xu123-1257701916.tcb.qcloud.la/08ee76fb1959312c40ac09723e21fd61.mp4?sign=ff9e7351fa3c8ef694c944deac21d82d&t=1619515311'"><span class="glyphicon glyphicon-book" aria-hidden="true">教程</span></van-button>
+            </van-row>
         </div>
-        <button @click="eduflag=!eduflag">使用教程</button>
-    </div>
+        <div class="zan" v-show="flag">
+            <van-image  :src="zanzhumaSrc"  v-show="flag">
+                <template v-slot:loading>
+                  <van-loading type="spinner" size="20" />
+                </template>
+              </van-image>
+        </div>     
+        <div style="text-align: center;" v-show="eduflag">
+          
+            <video v-show="eduflag" style="width:80rpx;height:50rpx;"  :src="jiaochengSrc" controls></video>
+        </div>
    
-    <div><img style="height:71.82%;width:100%;" v-show="eduflag" src="http://a1.qpic.cn/psc?/V53i6CBe1MDDya0UC8ez2apHRf2y0tyE/ruAMsa53pVQWN7FLK88i5k49m9ani8c9Nw11qMPWo2bcuyQdOXWbh4QpZo6A1cGaHrOPNxWbeLBWZvf*fukv*nwbBEqACU33PmukZw*gokI!/b&ek=1&kp=1&pt=0&bo=bwXnAwAAAAADR.w!&tl=1&vuin=2211207925&tm=1609225200&sce=60-2-2&rf=viewer_4" alt=""></div>
-    <div class="mian">
-        <span><a href="./mian.txt" download="免责声明">免责声明:</a></span>
+    <!--弹出框内容-->
+    <div v-show="danmushow">
+        <van-popup  v-model="show" position="top" :style="{ height: '100px' }"   closeable close-icon="close">
+          <van-cell-group>
+            <van-field
+              v-model="keyWords"
+              label="密码"
+              left-icon="https://cdn.jsdelivr.net/gh/coldfrontXu/movies/file-lock2.svg"
+              type="password"
+              placeholder="请填写密码"
+            />
+          </van-cell-group>
+          <div style="margin-top: 25px;" v-show="danmushow">
+            <van-row type="flex" justify="space-between"  >
+              <van-col span="3.5"> <van-button type="primary" size="small" @click="getUrls" >确定</van-button></van-col>
+             
+              <van-col span="3.5"> <van-button type="danger" size="small" @click="cancel">取消</van-button></van-col>
+            </van-row>
+    
+          </div>
+        </van-popup>
+      </div>   
+    <!--iframe播放位置-->
+    <main id="main-404-content" class="main-content-particle-js">
+    
+        <iframe name="iframes" v-if="ifrmeShow" id="palybox" :src="ifrmeUrl" allowtransparency="true" frameborder="0" scrolling="no" allowfullscreen="true"></iframe>
+  
+   </main>
+    <!--描述信息-->
+     <h4 style="color: blue;">适用于解析以下资源:</h4>
+     <!--适用于一下平台-->
+  
+    <div style="text-align: center;margin-top: 20px;border: 3px dashed rgb(49, 156, 218);">
+        <div style="margin-top:20px;">
+            <van-row gutter="20" >
+                <van-col span="6">
+                    <van-image width="60" height="30" lazy-load   src="https://cdn.jsdelivr.net/gh/coldfrontXu/movies/aiqiyi.png">
+                        <template v-slot:loading>
+                            <van-loading type="spinner" size="20" />
+                        </template>
+                    </van-image>
+                    <div>
+                        <a href="https://www.iqiyi.com" style="color: green" target="_blank">爱奇艺</a>
+                    </div>
+                </van-col>
+                <van-col span="6">
+                    <van-image width="60" height="30"  lazy-load src="https://cdn.jsdelivr.net/gh/coldfrontXu/movies/tengxun.png">
+                        <template v-slot:loading>
+                            <van-loading type="spinner" size="20" />
+                        </template>
+                    </van-image>
+                    <div>
+                       <a href="https://v.qq.com" style="color: #31e4ca" target="_blank">腾讯视频</a>
+                    </div>
+                </van-col>
+                <van-col span="6">
+                    <van-image width="60" height="30"  lazy-load  src="https://cdn.jsdelivr.net/gh/coldfrontXu/movies/youku.png">
+                        <template v-slot:loading>
+                            <van-loading type="spinner" size="20" />
+                        </template>
+                    </van-image>
+                    <div>
+                         <a href="https://www.youku.com" style="color: #0d7fdf" target="_blank">优酷视频</a>
+                    </div>
+                </van-col>
+                <van-col span="6">
+                    <van-image width="60" height="30"  lazy-load  src="https://cdn.jsdelivr.net/gh/coldfrontXu/movies/bilibili.png">
+                        <template v-slot:loading>
+                            <van-loading type="spinner" size="20" />
+                        </template>
+                    </van-image>
+                    <div>
+                        <a href="https://www.bilibili.com" style="color: #f1146c" target="_blank">哔哩哔哩</a>
+                    </div>
+                </van-col>
+            </van-row>
+        </div>
+    </div>
+</div>
+
+
+
+    <!-- <div id="preloader"> 
+        <div id="loader"></div>
+    </div>  -->
+  
+<script src="https://coldfront.gitee.io/caicaixu/index.js"></script>
+<script src="https://coldfront.gitee.io/caicaixu/donghua.js"></script>
+
+<!-- <script src="https://coldfront.gitee.io/caicaixu/plugins.js"></script> -->
+<!-- <script src="https://coldfront.gitee.io/caicaixu/main.js"></script> -->
+<!--免责声明-->
+
+<div class="mian">
+        <span><a href="https://cdn.jsdelivr.net/gh/coldfrontXu/movies/mian.txt" download="免责声明">免责声明:</a></span>
         <ol>
             <li>本脚本不做影视作品的下载和缓存,作品来源于网络，本脚本工具只负责网络接口的解析。</li>
             <li>上述文字和影视作品无必然联系，仅供使用者参考。</li>
             <li>上述脚本工具用于测试学习使用，如若本脚本工具无意中侵犯了某方的知识产权，告即及删除，邮箱:2211207925@qq.com。</li>
         </ol>
-    </div>
 </div>
-<script>
-   var vue=new Vue({
-       el:"#app",
-       data:{
-        eduflag:false,
-        flag:false,
-        des:"打赏获取接口及无限量解析",
-        selected:"https://jx.f41.cc/?url=",
-        urls:[
-       
-        {
-                url:" https://z1.m1907.cn/?jx=",
-                text:"通用接口1"
-         },
-         {
-                url:"http://jx.drgxj.com/?url=",
-                text:"通用接口2"
-         },
-         {
-                url:"http://jqaaa.com/jx.php?url=",
-                text:"通用接口3"
-            },
-          {
-                url:"https://vip.52jiexi.top/?url=",
-                text:"解析速度可以"
-            },
-            {
-                url:"https://api.yueliangjx.com/?url=",
-                text:"接口4"
-            },
-            {
-                url:"https://www.ckmov.vip/api.php?url= ",
-                text:"接口5,速度可以"
-            },
-            {
-                url:" https://www.qianyicp.com/jiexi/index.php?url= ",
-                text:"蓝光超清解析"
-            }
-        ],
-        url:[
-            {
-                url:"https://jx.f41.cc/?url=",
-                text:"普通接口1"
-            },
-        ],
-        urlsObject:[
-        ],
-        selectUrl:"",
-        count:localStorage.getItem("count")==null?0:JSON.parse(localStorage.getItem("count"))
-       },
-       methods:{
-           play(){
+</div>
 
-            if(localStorage.getItem("count")){
-                console.log("已经有count")
-                if(this.count>10){
-                    alert("你的解析次数已用完!继续使用请联系管理员。")
-                }
-                else{
-                    this.jiexi();
-                }
-                
-            }
-            else{
-                localStorage.setItem("count",0);
-                 this.jiexi()
-            }
 
-            
-           },
-           jiexi(){
-                   if(this.selectUrl.includes("http")){
-                    this.count=JSON.parse(localStorage.getItem("count"))+1;
-                    localStorage.setItem("count",this.count);
-                    window.location=this.selected+this.selectUrl;
-                    document.title="vip解析"
-                   
-               }
-               else{
-                   alert("输入框内请粘贴需要解析的影视地址!");
-               }  
-           },
-           getUrls(){
-            var that=this;
-            var keyWords=prompt("请输入管理员指令");
-            if(that.urlsObject.length>2){
-                alert("接口已经获取，请勿在获取")
-            }
-            else{
-                if(/XZH/.test(keyWords)){
-                    // console.log("进入");
-                    this.urlsObject=this.url.concat(this.urls);
-                    localStorage.setItem("count",0);
-                }
-                else{
-                    alert("指令不正确，请联系管理员获取正确的指令，再来试试!")
-                }
-            }
-           },
-           getMoney(){
-               this.flag=!this.flag;
-               if(this.flag){
-                   this.des="关闭"
-               }
-               else{
-                   this.des="打赏获取接口及无限量解析"
-               }
-           }
-       },
-       mounted(){
-           this.urlsObject=this.url;
-           
-       }
-   })
-</script>
 </body>
+
 </html>

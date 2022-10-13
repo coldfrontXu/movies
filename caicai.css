@@ -1,0 +1,46 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+html{
+   
+    /* background-image:url(https://cdn.jsdelivr.net/gh/coldfrontXu/movies/bgc.png);
+    background-repeat:no-repeat; */
+    background-color: rgb(189, 241, 237);
+
+}
+body{
+    background-color: rgb(189, 241, 237);
+}
+
+.zan img{
+height:200px;
+width:150px;
+}
+.zan{
+display: flex;
+justify-content: center;
+margin-top: 20px;
+}
+.play{
+display:flex;
+justify-content: space-between;
+}
+.mian{
+color: blue;
+margin-top: 3rem;
+}
+.mian li{
+line-height: 2rem;
+}
+#palybox {
+    height:480px;
+    width: 100%;
+}
+.pg-canvas{
+    height:480px;
+}
+#newObject{
+    height:480px;
+    width: 100%;
+}
